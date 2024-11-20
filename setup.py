@@ -11,18 +11,20 @@ wroot.title("Project Manager")
 wroot.geometry("300x100")
 
 def build_project():
+    os.chdir("..")
     subprocess.run(['premake5', 'vs2022'])
     messagebox.showinfo("Done!", "You can now open the .sln file for building!")
     quit()
 
 def clean_project():
         # Prompt the user to confirm the clean action
-    confirm = messagebox.askyesno("Clean", "Are you sure you want to clean the project?")
+    confirm = messagebox.askyesno("Clean", 
+    "Are you sure you want to clean the project?\ncleaning will remove ALL built project files!")
     if not confirm:
         return
 
-    # File extensions to delete
-    f = open("Setup/clean_items.json", 'r')
+    # File extension loading to delete
+    f = open("clean_items.json", 'r')
     jf = json.load(f)
     extensions_to_delete = jf["VisualStudio"]["files"]
     dirs_to_delete = jf["VisualStudio"]["dirs"]
@@ -38,7 +40,7 @@ def clean_project():
             if any(file.endswith(ext) for ext in extensions_to_delete):
                 file_path = os.path.join(root, file)
                 try:
-                    #os.remove(file_path)
+                    os.remove(file_path)
                     files_deleted += 1
                     print(f"Deleted: {file_path}")
                 except Exception as e:
@@ -50,7 +52,7 @@ def clean_project():
             if dir_name in dirs_to_delete:
                 dir_path = os.path.join(root, dir_name)
                 try:
-                    #shutil.rmtree(dir_path)
+                    shutil.rmtree(dir_path)
                     dirs_deleted += 1
                     print(f"Deleted directory: {dir_path}")
                 except Exception as e:
@@ -60,10 +62,10 @@ def clean_project():
     quit()
 
 # Add buttons
-build_button = tk.Button(wroot, text="Build Project", command=build_project, width=20)
+build_button = tk.Button(wroot, text="Build Project Files", command=build_project, width=20)
 build_button.pack(pady=10)
 
-clean_button = tk.Button(wroot, text="Clean Project", command=clean_project, width=20)
+clean_button = tk.Button(wroot, text="Clean Project Files", command=clean_project, width=20)
 clean_button.pack(pady=10)
 
 def main():
