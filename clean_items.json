@@ -1,0 +1,15 @@
+{
+    "VisualStudio": {
+        "files": [
+            ".sln", 
+            ".vcxproj", 
+            ".vcxproj.filters"
+        ],
+
+        "dirs": [
+            ".vs",
+            "bin",  
+            "bin-int"
+        ]
+    }
+}
